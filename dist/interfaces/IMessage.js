@@ -1,0 +1,26 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.SocketEvents = void 0;
+var SocketEvents;
+(function (SocketEvents) {
+    SocketEvents["GET_ROOMS"] = "GET_ROOMS";
+    SocketEvents["ADD_ROOM"] = "ADD_ROOM";
+    SocketEvents["REMOVE_ROOM"] = "REMOVE_ROOM";
+    SocketEvents["CREATE_ROOM"] = "CREATE_ROOM";
+    SocketEvents["CREATE_ROOM_ERROR"] = "CREATE_ROOM_ERROR";
+    SocketEvents["CREATE_ROOM_SUCCESS"] = "CREATE_ROOM_SUCCESS";
+    SocketEvents["JOIN_ROOM"] = "JOIN_ROOM";
+    SocketEvents["JOIN_ROOM_ERROR"] = "JOIN_ROOM_ERROR";
+    SocketEvents["JOIN_ROOM_SUCCESS"] = "JOIN_ROOM_SUCCESS";
+    SocketEvents["CAN_PLAY"] = "CAN_PLAY";
+    SocketEvents["CAN_PLAY_ERROR"] = "CAN_PLAY_ERROR";
+    SocketEvents["CAN_PLAY_SUCCESS"] = "CAN_PLAY_SUCCESS";
+    SocketEvents["PICK"] = "PICK";
+    SocketEvents["SYMBOL"] = "SYMBOL";
+    SocketEvents["TURN_ERROR"] = "TURN_ERROR";
+    SocketEvents["TURN"] = "TURN";
+    SocketEvents["UNKNOWN_EVENT"] = "UNKNOWN_EVENT";
+    SocketEvents["PONG"] = "PONG";
+    SocketEvents["PING"] = "PING";
+    SocketEvents["GAME_RESULT"] = "GAME_RESULT";
+})(SocketEvents = exports.SocketEvents || (exports.SocketEvents = {}));
