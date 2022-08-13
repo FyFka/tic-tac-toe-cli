@@ -1,20 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-const handlers = [];
-let currentIndex = 0;
+const react_1 = require("react");
+const Handler_1 = require("../Contexts/Handler");
 const useHandler = () => {
-    const subscribe = (handler) => {
-        handlers.push(handler);
+    const handlerContext = (0, react_1.useContext)(Handler_1.HandlerContext);
+    return {
+        click: handlerContext.click,
+        subscribe: handlerContext.subscribe,
+        unsubscribe: handlerContext.unsubscribe,
+        currentIndex: handlerContext.currentIndex,
+        currentHandler: handlerContext.currentHandler,
     };
-    const unsubscribe = (handler) => {
-        handlers.splice(handlers.indexOf(handler), 1);
-    };
-    const click = () => {
-        const handler = handlers[currentIndex];
-        if (handler) {
-            handler.onClick();
-        }
-    };
-    return { click, subscribe, unsubscribe };
 };
 exports.default = useHandler;

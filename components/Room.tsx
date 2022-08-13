@@ -1,12 +1,11 @@
 import { Box, Text, useFocus } from "ink";
 
 import { IRoom } from "../interfaces/IRoom";
+import Control from "./Control";
 
 interface IRoomProps extends IRoom {}
 
 const Room = ({ id, name, size, password }: IRoomProps) => {
-  const { isFocused } = useFocus();
-
   return (
     <Box
       borderStyle="single"
@@ -20,15 +19,14 @@ const Room = ({ id, name, size, password }: IRoomProps) => {
       <Text>
         {name} ({size}x{size})
       </Text>
-      <Box
-        width="80%"
-        borderStyle="round"
-        borderColor={isFocused ? "white" : "gray"}
-        display="flex"
-        justifyContent="center"
+      <Control
+        onClick={() => console.log(`JOIN -> ${name}`)}
+        styles={{ width: "80%", display: "flex", justifyContent: "center" }}
       >
-        <Text bold={isFocused}>JOIN</Text>
-      </Box>
+        <Box>
+          <Text>JOIN</Text>
+        </Box>
+      </Control>
     </Box>
   );
 };

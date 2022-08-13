@@ -1,15 +1,14 @@
-import { Box, Text, useFocus, Spacer, Newline } from "ink";
-import SelectInput from "ink-select-input";
+import { Box, Text } from "ink";
+
 import { useCallback, useEffect, useState } from "react";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import { IRoom } from "../interfaces/IRoom";
 import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/api";
-import Button from "./Button";
+import Control from "./Control";
 import Room from "./Room";
 
 const RoomsTable = () => {
   const [rooms, setRooms] = useState<IRoom[]>([]);
-  const { isFocused } = useFocus();
 
   useEffect(() => {
     sendMessage({ event: SocketEvents.GET_ROOMS });
@@ -56,19 +55,18 @@ const RoomsTable = () => {
           <Room key={room.id} id={room.id} size={room.size} name={room.name} password={room.password} />
         ))}
       </Box>
-      <Button onClick={() => console.log("sss")} onHover={() => console.log("sGGG")}>
-        <Box
-          width="95%"
-          display="flex"
-          alignItems="center"
-          justifyContent="center"
-          borderStyle="round"
-          borderColor={isFocused ? "white" : "gray"}
-          alignSelf="center"
-        >
-          <Text bold={isFocused}>CREATE ROOM</Text>
-        </Box>
-      </Button>
+      <Control
+        onClick={() => console.log("sss")}
+        styles={{
+          width: "95%",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          alignSelf: "center",
+        }}
+      >
+        <Text>CREATE ROOM</Text>
+      </Control>
     </Box>
   );
 };

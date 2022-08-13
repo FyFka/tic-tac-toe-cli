@@ -1,15 +1,17 @@
 import { useApp, useInput } from "ink";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export interface IHandlerContext {
-  readonly subscribe: (handler: IHandler) => void;
-  readonly unsubscribe: (handler: IHandler) => void;
+  readonly subscribe: (handler: Function) => string;
+  readonly unsubscribe: (id: string) => void;
   readonly click: () => void;
+  readonly currentIndex: number;
+  readonly currentHandler: IHandler | undefined;
 }
 
-export interface IHandler {
-  onHover: Function;
-  onClick: Function;
+interface IHandler {
+  readonly handler: Function;
+  readonly id: string;
 }
 
 export const HandlerContext = createContext<IHandlerContext>(null!);
@@ -24,24 +26,35 @@ export const HandlerContextProvider = ({ children }: IHandlerContextProviderProp
   const [currentIndex, setCurrentIndex] = useState<number>(0);
 
   const click = () => {
-    handlers[currentIndex].onClick();
+    if (handlers[currentIndex]) {
+      handlers[currentIndex].handler();
+    }
   };
 
-  const subscribe = (handler: IHandler) => {
-    setHandlers([...handlers, handler]);
+  const subscribe = (handler: Function) => {
+    const handlerId = generateId();
+    setHandlers((prevHandlers) => [...prevHandlers, { handler, id: handlerId }]);
+
+    return handlerId;
   };
 
-  const unsubscribe = (handler: IHandler) => {
-    console.log("unsubscribe");
+  const generateId = () => {
+    return Math.random().toString().slice(2, 7);
+  };
+
+  const unsubscribe = (id: string) => {
+    setHandlers(handlers.filter((h) => h.id !== id));
   };
 
   useInput((inp, key) => {
     if (inp === "q") {
       exit();
-    } else if (key.rightArrow || key.upArrow) {
+    } else if (key.rightArrow || key.downArrow) {
       nextHandler();
-    } else if (key.leftArrow || key.downArrow) {
+    } else if (key.leftArrow || key.upArrow) {
       previousHandler();
+    } else if (key.return) {
+      click();
     }
   });
 
@@ -53,9 +66,11 @@ export const HandlerContextProvider = ({ children }: IHandlerContextProviderProp
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? handlers.length - 1 : prevIndex - 1));
   };
 
-  useEffect(() => {
-    nextHandler();
-  }, []);
-
-  return <HandlerContext.Provider value={{ click, subscribe, unsubscribe }}>{children}</HandlerContext.Provider>;
+  return (
+    <HandlerContext.Provider
+      value={{ click, subscribe, unsubscribe, currentIndex, currentHandler: handlers[currentIndex] }}
+    >
+      {children}
+    </HandlerContext.Provider>
+  );
 };
