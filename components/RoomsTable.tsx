@@ -1,6 +1,7 @@
 import { Box, Text } from "ink";
 
 import { useCallback, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import { IRoom } from "../interfaces/IRoom";
 import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/api";
@@ -9,6 +10,7 @@ import Room from "./Room";
 
 const RoomsTable = () => {
   const [rooms, setRooms] = useState<IRoom[]>([]);
+  const navigate = useNavigate();
 
   useEffect(() => {
     sendMessage({ event: SocketEvents.GET_ROOMS });
@@ -47,6 +49,10 @@ const RoomsTable = () => {
   //   navigate("/game/" + message.data.id);
   // }, []);
 
+  const handleCreateRoom = useCallback(() => {
+    navigate("/create-room");
+  }, []);
+
   return (
     <Box display="flex" flexDirection="column">
       <Text bold>Free rooms</Text>
@@ -56,7 +62,7 @@ const RoomsTable = () => {
         ))}
       </Box>
       <Control
-        onClick={() => console.log("sss")}
+        onClick={handleCreateRoom}
         styles={{
           width: "95%",
           display: "flex",
