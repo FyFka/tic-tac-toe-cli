@@ -5,8 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import { IRoom } from "../interfaces/IRoom";
 import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/api";
-import Control from "./Control";
-import Room from "./Room";
+import Control from "../components/Control";
+import Room from "../components/Room";
 
 const RoomsTable = () => {
   const [rooms, setRooms] = useState<IRoom[]>([]);

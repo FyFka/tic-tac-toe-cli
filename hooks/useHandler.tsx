@@ -1,5 +1,5 @@
 import { useContext } from "react";
-import { HandlerContext } from "../Contexts/Handler";
+import { HandlerContext } from "../contexts/Handler";
 
 const useHandler = () => {
   const handlerContext = useContext(HandlerContext);

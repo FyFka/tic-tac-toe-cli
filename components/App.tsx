@@ -1,9 +1,9 @@
 import { Box, Text } from "ink";
-import { HandlerContextProvider } from "../Contexts/Handler";
+import { HandlerContextProvider } from "../contexts/Handler";
 import { Route, Routes, MemoryRouter } from "react-router-dom";
 import Header from "./Header";
-import RoomsTable from "./RoomsTable";
-import CreateRoom from "./CreateRoom";
+import RoomsTable from "../pages/RoomsTable";
+import CreateRoom from "../pages/CreateRoom";
 
 const App = () => {
   return (
