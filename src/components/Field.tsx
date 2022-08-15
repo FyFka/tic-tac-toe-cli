@@ -5,10 +5,11 @@ import TextInput from "ink-text-input";
 interface IFieldProps {
   label: string;
   onSubmit: (query: string) => void;
+  initial?: string;
 }
 
-const Field = ({ label, onSubmit }: IFieldProps) => {
-  const [query, setQuery] = useState("");
+const Field = ({ label, onSubmit, initial = "" }: IFieldProps) => {
+  const [query, setQuery] = useState(initial);
 
   return (
     <Box borderStyle="round" width="100%">

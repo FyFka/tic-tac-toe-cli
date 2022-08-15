@@ -4,6 +4,7 @@ import { Route, Routes, MemoryRouter } from "react-router-dom";
 import Header from "./Header";
 import RoomsTable from "../pages/RoomsTable";
 import CreateRoom from "../pages/CreateRoom";
+import Game from "../pages/Game";
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Routes>
             <Route path="/" element={<RoomsTable />} />
             <Route path="/create-room" element={<CreateRoom />} />
+            <Route path="/game/:id" element={<Game />} />
           </Routes>
         </MemoryRouter>
       </Box>
