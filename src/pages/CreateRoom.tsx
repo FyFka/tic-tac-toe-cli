@@ -1,7 +1,7 @@
 import { Box } from "ink";
 import { useCallback, useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
 import Field from "../components/Field";
+import usePage from "../hooks/usePage";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/api";
 
@@ -15,7 +15,7 @@ const CreateRoom = () => {
   const [stage, setStage] = useState(Stage.NAME);
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const navigate = useNavigate();
+  const navigate = usePage();
 
   const handleSubmit = (query: string) => {
     if (stage === Stage.NAME) {
@@ -49,8 +49,6 @@ const CreateRoom = () => {
   };
 
   const handleError = useCallback((evt: IMessage<{ field: "name" | "size"; info: string }>) => {
-    // setIncorrectField(evt.data.field);
-    // setCreateRoomInfo(evt.data.info);
     console.log(evt.data);
   }, []);
 

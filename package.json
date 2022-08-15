@@ -20,6 +20,7 @@
     "@types/ws": "^8.5.3"
   },
   "scripts": {
-    "start": "tsc && node dist/index.js"
+    "start": "tsc && node dist/index.js",
+    "debug": "tsc --noEmit && node --inspect dist/index.js"
   }
 }

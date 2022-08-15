@@ -1,7 +1,8 @@
 import { Box, Text } from "ink";
 import { useCallback, useEffect, useRef, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import Control from "../components/Control";
+import usePage from "../hooks/usePage";
 import { GameResult } from "../interfaces/IGameResult";
 import { GameSymbol } from "../interfaces/IGameSymbol";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
@@ -12,7 +13,7 @@ const Game = () => {
   const [myTurn, setMyTurn] = useState(false);
   const sizeRef = useRef<number>(0);
   const symbolRef = useRef<GameSymbol>(GameSymbol.UNKNOWN);
-  const navigate = useNavigate();
+  const navigate = usePage();
   const { id } = useParams();
 
   useEffect(() => {
@@ -35,26 +36,16 @@ const Game = () => {
   }, []);
 
   const handleGameResult = useCallback((message: IMessage<GameResult>) => {
-    // if (message.data === GameResult.DRAW) {
-    //   dispatch({
-    //     type: ActionType.OPEN_MODAL,
-    //     payload: { title: "Game result", body: <GameFinish result={"Draw!"} /> },
-    //   });
-    // } else if (
-    //   (message.data === GameResult.X_WON && symbolRef.current === GameSymbol.X) ||
-    //   (message.data === GameResult.O_WON && symbolRef.current === GameSymbol.O)
-    // ) {
-    //   dispatch({
-    //     type: ActionType.OPEN_MODAL,
-    //     payload: { title: "Game result", body: <GameFinish result={"You won!"} /> },
-    //   });
-    // } else {
-    //   dispatch({
-    //     type: ActionType.OPEN_MODAL,
-    //     payload: { title: "Game result", body: <GameFinish result={"You lost!"} /> },
-    //   });
-    // }
-    navigate("/");
+    if (message.data === GameResult.DRAW) {
+      navigate("/game-result", { state: "Draw!" });
+    } else if (
+      (message.data === GameResult.X_WON && symbolRef.current === GameSymbol.X) ||
+      (message.data === GameResult.O_WON && symbolRef.current === GameSymbol.O)
+    ) {
+      navigate("/game-result", { state: "You won!" });
+    } else {
+      navigate("/game-result", { state: "You lost!" });
+    }
   }, []);
 
   const handleTurnError = useCallback((message: IMessage<{ info: string }>) => {
@@ -90,10 +81,16 @@ const Game = () => {
     sendMessage({ event: SocketEvents.PICK, data: { id, row, cell } });
   };
 
+  const pickCurry = (row: number, cell: number) => {
+    return () => {
+      handlePick(row, cell);
+    };
+  };
+
   return (
     <Box display="flex" flexDirection="column">
       <Box width="100%">
-        <Text>Game ({id})</Text>
+        <Text bold>Game ({id})</Text>
       </Box>
       <Box width="100%">
         <Text>{symbolRef.current === GameSymbol.UNKNOWN ? "Waiting..." : myTurn ? "Your turn" : "Enemy turn"}</Text>
@@ -103,11 +100,17 @@ const Game = () => {
           <Box key={rowIndex} width="100%" justifyContent="center" alignItems="center">
             {row.map((cell, cellIndex) => (
               <Control
-                styles={{ width: "100%", height: 12 - (sizeRef.current - 1) }}
+                styles={{
+                  width: "100%",
+                  height: 3,
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                }}
                 key={cellIndex}
-                onClick={() => handlePick(rowIndex, cellIndex)}
+                onClick={pickCurry(rowIndex, cellIndex)}
               >
-                <Text>{cell}</Text>
+                <Text bold>{cell}</Text>
               </Control>
             ))}
           </Box>

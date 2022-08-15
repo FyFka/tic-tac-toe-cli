@@ -7,6 +7,7 @@ export interface IHandlerContext {
   readonly click: () => void;
   readonly currentIndex: number;
   readonly currentHandler: IHandler | undefined;
+  readonly resetFocus: () => void;
 }
 
 interface IHandler {
@@ -59,16 +60,22 @@ export const HandlerContextProvider = ({ children }: IHandlerContextProviderProp
   });
 
   const nextHandler = () => {
+    console.log(currentIndex);
     setCurrentIndex((prevIndex) => (prevIndex === handlers.length - 1 ? 0 : prevIndex + 1));
   };
 
   const previousHandler = () => {
+    console.log(currentIndex);
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? handlers.length - 1 : prevIndex - 1));
+  };
+
+  const resetFocus = () => {
+    setCurrentIndex(0);
   };
 
   return (
     <HandlerContext.Provider
-      value={{ click, subscribe, unsubscribe, currentIndex, currentHandler: handlers[currentIndex] }}
+      value={{ click, subscribe, unsubscribe, currentIndex, currentHandler: handlers[currentIndex], resetFocus }}
     >
       {children}
     </HandlerContext.Provider>
