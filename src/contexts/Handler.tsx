@@ -1,5 +1,5 @@
 import { useApp, useInput } from "ink";
-import { createContext, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 
 export interface IHandlerContext {
   readonly subscribe: (handler: Function) => string;
@@ -44,7 +44,7 @@ export const HandlerContextProvider = ({ children }: IHandlerContextProviderProp
   };
 
   const unsubscribe = (id: string) => {
-    setHandlers(handlers.filter((h) => h.id !== id));
+    setHandlers((prevHandlers) => prevHandlers.filter((h) => h.id !== id));
   };
 
   useInput((inp, key) => {
@@ -60,12 +60,10 @@ export const HandlerContextProvider = ({ children }: IHandlerContextProviderProp
   });
 
   const nextHandler = () => {
-    console.log(currentIndex);
     setCurrentIndex((prevIndex) => (prevIndex === handlers.length - 1 ? 0 : prevIndex + 1));
   };
 
   const previousHandler = () => {
-    console.log(currentIndex);
     setCurrentIndex((prevIndex) => (prevIndex === 0 ? handlers.length - 1 : prevIndex - 1));
   };
 

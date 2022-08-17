@@ -18,7 +18,7 @@ const Control = ({ onClick, children, styles }: IControlProps) => {
     setControlIndex(idx);
 
     return () => {
-      unsubscribe(controlIndex);
+      unsubscribe(idx);
     };
   }, []);
 

@@ -3,14 +3,12 @@ import { useLocation } from "react-router-dom";
 import Control from "../components/Control";
 import BigText from "ink-big-text";
 import usePage from "../hooks/usePage";
-import { socketHandlers } from "../utils/api";
 
 const GameResult = () => {
   const { state } = useLocation();
   const navigate = usePage();
 
   const handleBack = () => {
-    console.log(socketHandlers.size);
     navigate("/");
   };
 

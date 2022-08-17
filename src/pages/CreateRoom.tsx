@@ -50,6 +50,7 @@ const CreateRoom = () => {
 
   const handleError = useCallback((evt: IMessage<{ field: "name" | "size"; info: string }>) => {
     console.log(evt.data);
+    setStage(Stage.NAME);
   }, []);
 
   return (
