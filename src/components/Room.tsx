@@ -1,6 +1,6 @@
 import { Box, Text } from "ink";
+import usePage from "../hooks/usePage";
 import { SocketEvents } from "../interfaces/IMessage";
-
 import { IRoom } from "../interfaces/IRoom";
 import { sendMessage } from "../utils/api";
 import Control from "./Control";
@@ -8,11 +8,13 @@ import Control from "./Control";
 interface IRoomProps extends IRoom {}
 
 const Room = ({ id, name, size, password }: IRoomProps) => {
+  const navigate = usePage();
+
   const handleJoinRoom = () => {
     if (!password) {
       sendMessage({ event: SocketEvents.JOIN_ROOM, data: { id } });
     } else {
-      // dispatch({ type: ActionType.OPEN_MODAL, payload: { body: <JoinRoom id={id} />, title: "Join Room" } });
+      navigate(`/join-private-room/${id}`);
     }
   };
 

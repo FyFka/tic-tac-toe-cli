@@ -1,5 +1,5 @@
 import { useApp, useInput } from "ink";
-import { createContext, useEffect, useState } from "react";
+import { createContext, useState } from "react";
 
 export interface IHandlerContext {
   readonly subscribe: (handler: Function) => string;

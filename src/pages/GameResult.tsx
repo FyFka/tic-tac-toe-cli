@@ -3,6 +3,7 @@ import { useLocation } from "react-router-dom";
 import Control from "../components/Control";
 import BigText from "ink-big-text";
 import usePage from "../hooks/usePage";
+import Gradient from "ink-gradient";
 
 const GameResult = () => {
   const { state } = useLocation();
@@ -18,7 +19,9 @@ const GameResult = () => {
         <Text>GAME RESULT</Text>
       </Box>
       <Box width="100%">
-        <BigText align="center" text={state as string} />
+        <Gradient name="mind">
+          <BigText align="center" text={state as string} />
+        </Gradient>
       </Box>
       <Control
         onClick={handleBack}

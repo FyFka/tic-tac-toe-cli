@@ -6,6 +6,7 @@ import RoomsTable from "../pages/RoomsTable";
 import CreateRoom from "../pages/CreateRoom";
 import Game from "../pages/Game";
 import GameResult from "../pages/GameResult";
+import JoinPrivateRoom from "../pages/JoinPrivateRoom";
 
 const App = () => {
   return (
@@ -23,6 +24,7 @@ const App = () => {
             <Route path="/create-room" element={<CreateRoom />} />
             <Route path="/game/:id" element={<Game />} />
             <Route path="/game-result" element={<GameResult />} />
+            <Route path="/join-private-room/:gameId" element={<JoinPrivateRoom />} />
           </Routes>
         </MemoryRouter>
       </Box>
