@@ -2,7 +2,7 @@ import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import WebSocket from "ws";
 let once = false;
 
-const socket = new WebSocket("wss://tttoe-api.herokuapp.com/:443");
+const socket = new WebSocket(process.env.REACT_APP_API_URL || "wss://tttoe-api.herokuapp.com/:443");
 const socketHandlers = new Map<string, Function[]>([]);
 
 setInterval(() => {
