@@ -19,10 +19,12 @@
     "@types/ink-text-input": "^2.0.2",
     "@types/node": "^18.6.2",
     "@types/react": "^18.0.15",
-    "@types/ws": "^8.5.3"
+    "@types/ws": "^8.5.3",
+    "pkg": "^5.8.0"
   },
   "scripts": {
     "start": "tsc && node dist/index.js",
-    "debug": "tsc --noEmit && node --inspect dist/index.js"
+    "debug": "tsc --noEmit && node --inspect dist/index.js",
+    "build": "tsc && pkg dist/index.js --out-path compile"
   }
 }
