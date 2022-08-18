@@ -2,13 +2,14 @@ import { Box, Text } from "ink";
 import { useCallback, useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import Control from "../components/Control";
+import withExternalError, { IWithExternalErrorProps } from "../HOC/withExternalError";
 import usePage from "../hooks/usePage";
 import { GameResult } from "../interfaces/IGameResult";
 import { GameSymbol } from "../interfaces/IGameSymbol";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/api";
 
-const Game = () => {
+const Game = ({ setExternalError }: IWithExternalErrorProps) => {
   const [board, setBoard] = useState<string[][]>([[]]);
   const [myTurn, setMyTurn] = useState(false);
   const sizeRef = useRef<number>(0);
@@ -49,7 +50,7 @@ const Game = () => {
   }, []);
 
   const handleTurnError = useCallback((message: IMessage<{ info: string }>) => {
-    console.log(message.data.info);
+    setExternalError(message.data.info);
   }, []);
 
   const handleTurn = useCallback((message: IMessage<{ board: string[][]; turn: GameSymbol }>) => {
@@ -120,4 +121,4 @@ const Game = () => {
   );
 };
 
-export default Game;
+export default withExternalError(Game);

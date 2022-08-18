@@ -1,6 +1,7 @@
 import { Box } from "ink";
-import { useCallback, useEffect, useReducer, useState } from "react";
+import { useCallback, useEffect, useReducer } from "react";
 import Field from "../components/Field";
+import withExternalError, { IWithExternalErrorProps } from "../HOC/withExternalError";
 import usePage from "../hooks/usePage";
 import { IMessage, SocketEvents } from "../interfaces/IMessage";
 import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/api";
@@ -30,7 +31,7 @@ const reducer = (state: { name: string; password: string; size: string; stage: S
   }
 };
 
-const CreateRoom = () => {
+const CreateRoom = ({ setExternalError }: IWithExternalErrorProps) => {
   const [state, dispatch] = useReducer(reducer, { name: "", password: "", size: "", stage: Stage.NAME });
   const navigate = usePage();
 
@@ -61,12 +62,12 @@ const CreateRoom = () => {
   };
 
   const handleError = useCallback((evt: IMessage<{ field: "name" | "size"; info: string }>) => {
-    console.log(evt.data.info);
+    setExternalError(evt.data.info);
     dispatch({ type: Stage.RESET, payload: "" });
   }, []);
 
   return (
-    <Box>
+    <Box display="flex" flexDirection="column">
       {state.stage === Stage.NAME && <Field label="Room name" onSubmit={handleSubmit} />}
       {state.stage === Stage.PASSWORD && <Field label="Password(optional)" onSubmit={handleSubmit} />}
       {state.stage === Stage.SIZE && <Field label="Board size" onSubmit={handleSubmit} initial="3" />}
@@ -74,4 +75,4 @@ const CreateRoom = () => {
   );
 };
 
-export default CreateRoom;
+export default withExternalError(CreateRoom);

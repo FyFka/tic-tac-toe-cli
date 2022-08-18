@@ -6,8 +6,9 @@ import { sendMessage, subscribeToEvent, unsubscribeFromEvent } from "../utils/ap
 import Control from "../components/Control";
 import Room from "../components/Room";
 import usePage from "../hooks/usePage";
+import withExternalError, { IWithExternalErrorProps } from "../HOC/withExternalError";
 
-const RoomsTable = () => {
+const RoomsTable = ({ setExternalError }: IWithExternalErrorProps) => {
   const [rooms, setRooms] = useState<IRoom[]>([]);
   const navigate = usePage();
 
@@ -41,7 +42,7 @@ const RoomsTable = () => {
   }, []);
 
   const handleJoinRoomError = useCallback((message: IMessage<{ info: string }>) => {
-    console.log(message.data.info);
+    setExternalError(message.data.info);
   }, []);
 
   const handleJoinRoomSuccess = useCallback((message: IMessage<{ id: string }>) => {
@@ -76,4 +77,4 @@ const RoomsTable = () => {
   );
 };
 
-export default RoomsTable;
+export default withExternalError(RoomsTable);
